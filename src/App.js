@@ -1,8 +1,12 @@
 import "./App.css";
+import UserCarousel from "./components/UserCarousel";
 
 function App() {
   return (
-    <div className="App bg-gradient-to-r from-violet-500 to-fuchsia-500"></div>
+    <div className="App ">
+      <UserCarousel />
+      <h5 className="text-xl">User is in the lead.</h5>
+    </div>
   );
 }
 

@@ -5,4 +5,10 @@
 body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  --tw-gradient-to: #d946ef;
+  --tw-gradient-from: #8b5cf6;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
