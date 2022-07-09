@@ -6,7 +6,7 @@ import UserCarousel from "./components/UserCarousel";
 
 function App() {
   return (
-    <div>
+    <div className="">
       <AuthContextProvider>
         <BrowserRouter>
           <Navbar />

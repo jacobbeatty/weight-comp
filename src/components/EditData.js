@@ -39,7 +39,7 @@ const EditData = () => {
       onSubmit={handleSubmit}
     >
       <input
-        className="w-[45%]"
+        className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400"
         placeholder="Current Weight"
         value={currentWeight}
         onChange={(e) => setCurrentWeight(e.target.value)}
