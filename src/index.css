@@ -12,3 +12,7 @@ body {
   --tw-gradient-from: #8b5cf6;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+
+.button {
+  background-color: aqua;
+}
