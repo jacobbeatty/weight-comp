@@ -34,10 +34,7 @@ const EditData = () => {
   }, []);
 
   return (
-    <form
-      className="form flex flex-wrap justify-between mt-2"
-      onSubmit={handleSubmit}
-    >
+    <form className="form flex flex-wrap  mt-2" onSubmit={handleSubmit}>
       <input
         className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400"
         placeholder="Current Weight"

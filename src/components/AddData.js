@@ -34,7 +34,7 @@ const AddData = () => {
     <form className="form flex flex-wrap  mt-2" onSubmit={handleSubmit}>
       <input
         className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400 "
-        placeholder="Start weight"
+        placeholder="Starting weight"
         value={startingWeight}
         onChange={(e) => setStartingWeight(e.target.value)}
       />
