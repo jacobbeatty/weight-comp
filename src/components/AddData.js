@@ -8,7 +8,6 @@ import { getAuth } from "firebase/auth";
 const AddData = () => {
   const [startingWeight, setStartingWeight] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
-  // const usersRef = collection(db, "users");
   const auth = getAuth(app);
 
   const handleSubmit = async (e) => {
@@ -17,15 +16,6 @@ const AddData = () => {
     const { uid, photoURL, displayName } = auth.currentUser;
     const percentageLost =
       ((startingWeight - currentWeight) / startingWeight) * 100;
-
-    // await addDoc(usersRef, {
-    //   uid: uid,
-    //   photoURL: photoURL,
-    //   displayName: displayName,
-    //   startingWeight: startingWeight,
-    //   currentWeight: currentWeight,
-    //   percentageLost: percentageLost,
-    // });
 
     await setDoc(doc(db, "users", uid), {
       uid: uid,

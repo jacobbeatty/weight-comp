@@ -5,23 +5,17 @@ import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { getAuth } from "firebase/auth";
 
-const EditData = (props) => {
+const EditData = () => {
   const auth = getAuth(app);
   const uid = auth.currentUser.uid;
-
   const usersRef = doc(db, "users", uid);
   const [user, setUser] = useState({});
-
-  //   const [startingWeight, setStartingWeight] = useState(user.startingWeight);
   const [currentWeight, setCurrentWeight] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const percentageLost =
       ((user.startingWeight - currentWeight) / user.startingWeight) * 100;
-
-    console.log(percentageLost);
 
     await updateDoc(usersRef, {
       currentWeight: currentWeight,
@@ -29,7 +23,6 @@ const EditData = (props) => {
     });
 
     setCurrentWeight("");
-    // setStartingWeight("");
   };
 
   useEffect(() => {
@@ -40,7 +33,6 @@ const EditData = (props) => {
     getUser();
   }, []);
 
-  console.log(usersRef);
   return (
     <form
       className="form flex flex-wrap justify-between mt-2"

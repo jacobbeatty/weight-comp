@@ -5,7 +5,6 @@ const UserCarousel = () => {
   return (
     <div className="flex s flex-col sm:flex-row justify-center h-fit sm:h-[100vh] w-[100%] sm:w[100vw] text-center items-center ">
       <UserCard />
-      {/* <JoinCard /> */}
     </div>
   );
 };
