@@ -15,7 +15,7 @@ const UserCard = () => {
   return (
     <div className="flex flex-col sm:flex-row sm:w-[95%] h-fit ">
       {users.map((user) => {
-        const percentageLostDec = user.percentageLost.toFixed(2);
+        const percentageLost = user.percentageLost;
 
         return (
           <div
@@ -24,7 +24,7 @@ const UserCard = () => {
           >
             <div className="w-[100px] h-[100px] flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-full text-center z-50">
               <p className="!opacity-100 text-white">
-                {user.displayName} has lost {percentageLostDec}%.
+                {user.displayName} has lost {percentageLost}%.
               </p>
             </div>
 

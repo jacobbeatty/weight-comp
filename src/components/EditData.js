@@ -14,8 +14,10 @@ const EditData = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const percentageLost =
-      ((user.startingWeight - currentWeight) / user.startingWeight) * 100;
+    const percentageLost = (
+      ((user.startingWeight - currentWeight) / user.startingWeight) *
+      100
+    ).toFixed(2);
 
     await updateDoc(usersRef, {
       currentWeight: currentWeight,

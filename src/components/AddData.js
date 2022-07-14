@@ -14,8 +14,10 @@ const AddData = () => {
     e.preventDefault();
 
     const { uid, photoURL, displayName } = auth.currentUser;
-    const percentageLost =
-      ((startingWeight - currentWeight) / startingWeight) * 100;
+    const percentageLost = (
+      ((startingWeight - currentWeight) / startingWeight) *
+      100
+    ).toFixed(2);
 
     await setDoc(doc(db, "users", uid), {
       uid: uid,
