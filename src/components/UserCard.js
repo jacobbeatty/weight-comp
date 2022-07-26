@@ -2,12 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase-config";
 import { collection, onSnapshot } from "firebase/firestore";
+import { useParams } from "react-router-dom";
 
 const UserCard = () => {
   const [users, setUsers] = useState([]);
+  let { compName } = useParams();
 
   useEffect(() => {
-    onSnapshot(collection(db, "users"), (snapshot) =>
+    onSnapshot(collection(db, compName), (snapshot) =>
       setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
   });

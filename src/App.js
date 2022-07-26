@@ -1,19 +1,17 @@
 import React from "react";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { AuthContextProvider } from "./context/AuthContext";
-import UserCarousel from "./components/UserCarousel";
+import { AuthContextProvider, UserAuth } from "./context/AuthContext";
+import Home from "./routes/Home";
+import Comp from "./routes/Comp";
+import { db, app, auth } from "./firebase-config";
+import { doc, getDoc } from "firebase/firestore";
 
 function App() {
   return (
     <div className="">
       <AuthContextProvider>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<UserCarousel />} />
-          </Routes>
-        </BrowserRouter>
+        <Navbar />
+        <Home />
       </AuthContextProvider>
     </div>
   );

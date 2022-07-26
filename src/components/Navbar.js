@@ -26,22 +26,15 @@ const Navbar = () => {
     }
   };
 
-  const handleLink = () => {
-    try {
-      //
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    if (user != null) {
-      navigate("/");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user != null) {
+  //     navigate("/");
+  //   }
+  // }, [user]);
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showLink, setShowLink] = useState(false);
-
+  console.log(user);
   return (
     <div className="flex justify-between list-item bg-white w-full p-4 mb-10">
       {user ? (
