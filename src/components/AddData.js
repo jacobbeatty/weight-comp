@@ -4,8 +4,11 @@ import { app } from "../firebase-config";
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { getAuth } from "firebase/auth";
+import { useParams } from "react-router-dom";
 
 const AddData = () => {
+  let { compName } = useParams();
+
   const [startingWeight, setStartingWeight] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
   const auth = getAuth(app);
@@ -19,7 +22,7 @@ const AddData = () => {
       100
     ).toFixed(2);
 
-    await setDoc(doc(db, "users", uid), {
+    await setDoc(doc(db, compName, uid), {
       uid: uid,
       photoURL: photoURL,
       displayName: displayName,

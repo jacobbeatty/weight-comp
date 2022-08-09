@@ -4,11 +4,13 @@ import { app } from "../firebase-config";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { getAuth } from "firebase/auth";
+import { useParams } from "react-router-dom";
 
 const EditData = () => {
+  let { compName } = useParams();
   const auth = getAuth(app);
   const uid = auth.currentUser.uid;
-  const usersRef = doc(db, "users", uid);
+  const usersRef = doc(db, compName, uid);
   const [user, setUser] = useState({});
   const [currentWeight, setCurrentWeight] = useState("");
   const handleSubmit = async (e) => {

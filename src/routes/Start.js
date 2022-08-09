@@ -2,9 +2,12 @@ import React from "react";
 import HomeCard from "../components/HomeCard";
 import { app, db, auth } from "../firebase-config.js";
 import { setDoc, doc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const Start = () => {
   const [compName, setCompName] = React.useState("");
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { uid, photoURL, displayName } = auth.currentUser;
@@ -18,6 +21,7 @@ const Start = () => {
       compName: compName,
     });
     setCompName("");
+    navigate(`/comp/${compName}`);
   };
   return (
     <div className=" flex justify-around items-center w-[100vw] h-[100vh]">

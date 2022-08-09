@@ -26,14 +26,14 @@ const Home = () => {
               START A COMP
             </a>
           </HomeCard>
-          <HomeCard>
+          {/* <HomeCard>
             <a
               className="h-full w-full flex justify-center text-center items-center"
               href="/join"
             >
               JOIN A COMP
             </a>
-          </HomeCard>
+          </HomeCard> */}
         </div>
       ) : (
         <div className="flex justify-around items-center w-[100vw] h-[100vh]">
