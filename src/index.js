@@ -20,6 +20,7 @@ root.render(
           <Route path="join" element={<Join />} />
           <Route path="start" element={<Start />} />
           <Route path="comp/:compName" element={<Comp />} />
+          <Route path="comp/:compName/:inviteCode" element={<Comp />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>

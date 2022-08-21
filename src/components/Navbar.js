@@ -89,8 +89,6 @@ const Navbar = () => {
         </button>
       )}
       <div>
-        {console.log(isCompPage)}
-
         {showAdd && user ? <AddData /> : null}
         {showEdit && user ? <EditData /> : null}
         {showLink && user ? <LinkDiscord /> : null}
