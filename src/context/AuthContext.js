@@ -1,27 +1,29 @@
-import { useContext, createContext, useEffect, useState } from "react";
+import {useContext, createContext, useEffect, useState} from "react";
 import {
   getAuth,
   GoogleAuthProvider,
   signInWithRedirect,
   signOut,
   onAuthStateChanged,
+  signInWithPopup,
 } from "firebase/auth";
-import { app } from "../firebase-config";
+import {app} from "../firebase-config";
 
 const AuthContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({children}) => {
   const auth = getAuth(app);
 
   const [user, setUser] = useState({});
 
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    // signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider);
   };
 
   const logOut = () => {
-    signOut(auth);
+    return signOut(auth);
   };
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+    <AuthContext.Provider value={{googleSignIn, logOut, user}}>
       {children}
     </AuthContext.Provider>
   );

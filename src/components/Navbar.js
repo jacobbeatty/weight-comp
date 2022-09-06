@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { UserAuth } from "../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
-import { db } from "../firebase-config";
+import React, {useEffect, useState} from "react";
+import {UserAuth} from "../context/AuthContext";
+import {useNavigate, useParams} from "react-router-dom";
+import {db} from "../firebase-config";
 import Invite from "./Invite";
 import AddData from "./AddData";
 import EditData from "./EditData";
 import LinkDiscord from "./LinkDiscord";
 
 const Navbar = () => {
-  const { user, logOut, googleSignIn } = UserAuth();
+  const {user, logOut, googleSignIn} = UserAuth();
   const navigate = useNavigate();
-  let { compName } = useParams();
+  let {compName} = useParams();
 
   //if the user is not on a comp page, dont show add or edit buttons.
   const isCompPage = window.location.pathname.includes("comp");
@@ -57,16 +57,17 @@ const Navbar = () => {
   const handleSignOut = async () => {
     try {
       await logOut();
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
-  // useEffect(() => {
-  //   if (user != null) {
-  //     navigate("/");
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user == null) {
+      navigate("/");
+    }
+  }, [user]);
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showLink, setShowLink] = useState(false);

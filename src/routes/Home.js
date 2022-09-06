@@ -1,9 +1,9 @@
-import { React } from "react";
+import {React} from "react";
 import HomeCard from "../components/HomeCard";
-import { UserAuth } from "../context/AuthContext";
+import {UserAuth} from "../context/AuthContext";
 
 const Home = () => {
-  const { user, googleSignIn } = UserAuth();
+  const {user, googleSignIn} = UserAuth();
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn();
@@ -26,14 +26,6 @@ const Home = () => {
               START A COMP
             </a>
           </HomeCard>
-          {/* <HomeCard>
-            <a
-              className="h-full w-full flex justify-center text-center items-center"
-              href="/join"
-            >
-              JOIN A COMP
-            </a>
-          </HomeCard> */}
         </div>
       ) : (
         <div className="flex justify-around items-center w-[100vw] h-[100vh]">
@@ -43,6 +35,14 @@ const Home = () => {
               onClick={handleGoogleSignIn}
             >
               SIGN IN
+            </a>
+          </HomeCard>
+          <HomeCard>
+            <a
+              className="h-full w-full flex justify-center text-center items-center cursor-pointer"
+              onClick={() => console.log(user)}
+            >
+              Print User
             </a>
           </HomeCard>
         </div>
