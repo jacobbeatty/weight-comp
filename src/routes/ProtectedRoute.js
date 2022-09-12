@@ -7,6 +7,7 @@ import {doc, getDoc} from "firebase/firestore";
 
 const ProtectedRoute = ({children}) => {
   let {compName} = useParams();
+  let {inviteCode} = useParams();
 
   const {user} = UserAuth();
   // const {uid, displayName, photoURL} = user;
