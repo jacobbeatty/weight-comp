@@ -1,68 +1,78 @@
 import React from "react";
-import {useState} from "react";
 import {app} from "../firebase-config";
 import {setDoc, doc} from "firebase/firestore";
 import {db} from "../firebase-config";
 import {getAuth} from "firebase/auth";
 import {useParams} from "react-router-dom";
 import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 const AddData = () => {
   let {compName} = useParams();
-  const addDataSchema = yup.object().shape({
-    startingWeight: yup.number().required().positive().integer(),
-    currentWeight: yup.number().required().positive().integer(),
+  const schema = yup.object().shape({
+    startingWeight: yup
+      .number("Must be a number.")
+      .typeError("Must be a number.")
+      .required("Please include a starting weight.")
+      .positive("Must be positive.")
+      .integer("Must be a number."),
+    currentWeight: yup
+      .number("Must be a number.")
+      .typeError("Must be a number.")
+      .required("Please include your current weight.")
+      .positive("Must be positive.")
+      .integer("Must be a number."),
   });
-
-  const [startingWeight, setStartingWeight] = useState("");
-  const [currentWeight, setCurrentWeight] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const auth = getAuth(app);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = {
-      startingWeight: e.target[0].value,
-      currentWeight: e.target[1].value,
-    };
-    const isValid = await addDataSchema.isValid(data);
-    console.log(isValid);
-
+  const onSubmit = async (e) => {
     const {uid, photoURL, displayName} = auth.currentUser;
-    //if isValid is true, then add data to db
-    if (isValid) {
-      const percentageLost = (
-        ((startingWeight - currentWeight) / startingWeight) *
-        100
-      ).toFixed(2);
 
-      await setDoc(doc(db, compName, uid), {
-        uid: uid,
-        photoURL: photoURL,
-        displayName: displayName,
-        startingWeight: startingWeight,
-        currentWeight: currentWeight,
-        percentageLost: percentageLost,
-      });
-    }
+    const percentageLost = (
+      ((e.startingWeight - e.currentWeight) / e.startingWeight) *
+      100
+    ).toFixed(2);
 
-    setCurrentWeight("");
-    setStartingWeight("");
+    await setDoc(doc(db, compName, uid), {
+      uid: uid,
+      photoURL: photoURL,
+      displayName: displayName,
+      startingWeight: e.startingWeight,
+      currentWeight: e.currentWeight,
+      percentageLost: percentageLost,
+    });
   };
 
   return (
-    <form className="form flex flex-wrap  mt-2" onSubmit={handleSubmit}>
-      <input
-        className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400 "
-        placeholder="Starting weight"
-        value={startingWeight}
-        onChange={(e) => setStartingWeight(e.target.value)}
-      />
-      <input
-        className="w-[45%] sm:w-[10vw] border-solid border-2 border-fuchsia-400"
-        placeholder="Current Weight"
-        value={currentWeight}
-        onChange={(e) => setCurrentWeight(e.target.value)}
-      />
+    <form
+      className="form flex flex-wrap  mt-2"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="flex flex-col">
+        <input
+          className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400 "
+          placeholder="Starting weight"
+          {...register("startingWeight")}
+        />
+        {/* <p>{errors.startingWeight?.message}</p> */}
+      </div>
+      <div className="flex flex-col">
+        <input
+          className="w-[45%] sm:w-[10vw] border-solid border-2 border-fuchsia-400"
+          placeholder="Current weight"
+          {...register("currentWeight")}
+        />
+        {/* <p>{errors.currentWeight?.message}</p> */}
+      </div>
+
       <button className="button mt-2" type="submit">
         Submit
       </button>
