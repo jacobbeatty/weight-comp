@@ -7,12 +7,14 @@ import {useParams} from "react-router-dom";
 const UserCard = () => {
   const [users, setUsers] = useState([]);
   let {compName} = useParams();
+  const usersRef = collection(db, compName);
 
   useEffect(() => {
-    onSnapshot(collection(db, compName), (snapshot) =>
+    const unsubscribe = onSnapshot(usersRef, (snapshot) =>
       setUsers(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
     );
-  });
+    return unsubscribe;
+  }, []);
 
   return (
     <div className="flex flex-col sm:flex-row sm:w-[95%] h-fit ">

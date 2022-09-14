@@ -53,29 +53,26 @@ const AddData = () => {
 
   return (
     <form
-      className="form flex flex-wrap  mt-2"
+      className="form flex-col flex flex-wrap  mt-2"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="flex flex-col">
+      <div>
         <input
           className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400 "
           placeholder="Starting weight"
           {...register("startingWeight")}
         />
-        {/* <p>{errors.startingWeight?.message}</p> */}
-      </div>
-      <div className="flex flex-col">
         <input
           className="w-[45%] sm:w-[10vw] border-solid border-2 border-fuchsia-400"
           placeholder="Current weight"
           {...register("currentWeight")}
         />
-        {/* <p>{errors.currentWeight?.message}</p> */}
+        <button className="button mt-2" type="submit">
+          Submit
+        </button>
       </div>
-
-      <button className="button mt-2" type="submit">
-        Submit
-      </button>
+      <p>{errors.startingWeight?.message}</p>
+      <p>{errors.currentWeight?.message}</p>
     </form>
   );
 };

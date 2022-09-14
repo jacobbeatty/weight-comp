@@ -12,9 +12,18 @@ import {yupResolver} from "@hookform/resolvers/yup";
 const EditData = () => {
   let {compName} = useParams();
   const schema = yup.object().shape({
-    currentWeight: yup.number().required().positive().integer(),
+    currentWeight: yup
+      .number("Must be a number.")
+      .typeError("Must be a number.")
+      .required("Please include a starting weight.")
+      .positive("Must be positive.")
+      .integer("Must be a number."),
   });
-  const {register, handleSubmit} = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -35,6 +44,7 @@ const EditData = () => {
   };
 
   useEffect(() => {
+    console.count("useEffect");
     const getUser = async () => {
       const snap = await getDoc(usersRef);
       setUser({uid, ...snap.data()});
@@ -44,17 +54,20 @@ const EditData = () => {
 
   return (
     <form
-      className="form flex flex-wrap  mt-2"
+      className="form flex flex-col flex-wrap  mt-2"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <input
-        className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400"
-        placeholder="Current Weight"
-        {...register("currentWeight")}
-      />
-      <button className="button mt-2" type="submit">
-        Submit
-      </button>
+      <div>
+        <input
+          className="w-[45%] sm:w-[10vw]  border-solid border-2 border-fuchsia-400"
+          placeholder="Current Weight"
+          {...register("currentWeight")}
+        />
+        <button className="button mt-2" type="submit">
+          Submit
+        </button>
+      </div>
+      <p>{errors.currentWeight?.message}</p>
     </form>
   );
 };
