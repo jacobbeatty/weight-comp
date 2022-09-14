@@ -8,7 +8,6 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 const Start = () => {
-  const [compName, setCompName] = React.useState("");
   const navigate = useNavigate();
 
   const schema = yup.object().shape({
@@ -26,17 +25,15 @@ const Start = () => {
   });
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-
     const {uid, photoURL, displayName} = auth.currentUser;
-    await setDoc(doc(db, compName, uid), {
+    await setDoc(doc(db, e.compName, uid), {
       uid: uid,
       photoURL: photoURL,
       displayName: displayName,
-      compName: compName,
+      compName: e.compName,
     });
-    setCompName("");
-    navigate(`/comp/${compName}`);
+
+    navigate(`/comp/${e.compName}`);
   };
   return (
     <div className=" flex justify-around items-center w-[100vw] h-[100vh]">
@@ -46,8 +43,7 @@ const Start = () => {
             className="border-fuchsia-600 border-solid border-2"
             type="text"
             placeholder="Comp Name"
-            value={compName}
-            onChange={(e) => setCompName(e.target.value)}
+            {...register("compName")}
           />
           <p>{errors.compName?.message}</p>
           <button

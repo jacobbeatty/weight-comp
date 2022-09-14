@@ -55,13 +55,16 @@ const Comp = () => {
 
     checkInvite();
     const checkUserInComp = async () => {
-      const userRef = doc(db, compName, uid);
-
-      const userSnap = await getDoc(userRef);
-      if (!userSnap.exists() && !inviteCode) {
-        navigate("/");
-      } else {
-        console.log("user in comp");
+      try {
+        const userRef = doc(db, compName, uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists() && !inviteCode) {
+          navigate("/");
+        } else {
+          console.log("user in comp");
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     checkUserInComp();
