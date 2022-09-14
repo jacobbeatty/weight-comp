@@ -1,10 +1,6 @@
 import React from "react";
-import { useState } from "react";
-import { app } from "../firebase-config";
 import { updateDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
-import { getAuth } from "firebase/auth";
-import { async } from "@firebase/util";
 
 const LinkDiscord = () => {
   // e.preventDefault();

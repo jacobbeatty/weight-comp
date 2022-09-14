@@ -1,16 +1,20 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { db } from "../firebase-config";
-import { collection, onSnapshot } from "firebase/firestore";
+import {useState, useEffect} from "react";
+import {db} from "../firebase-config";
+import {collection, onSnapshot} from "firebase/firestore";
+import {useParams} from "react-router-dom";
 
 const UserCard = () => {
   const [users, setUsers] = useState([]);
+  let {compName} = useParams();
+  const usersRef = collection(db, compName);
 
   useEffect(() => {
-    onSnapshot(collection(db, "users"), (snapshot) =>
-      setUsers(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    const unsubscribe = onSnapshot(usersRef, (snapshot) =>
+      setUsers(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
     );
-  });
+    return unsubscribe;
+  }, []);
 
   return (
     <div className="flex flex-col sm:flex-row sm:w-[95%] h-fit ">
@@ -23,9 +27,13 @@ const UserCard = () => {
             className="w-[95vw]  h-[49vh] sm:h-[40vh]    drop-shadow-xl flex justify-center items-end p-2"
           >
             <div className="w-[100px] h-[100px] flex items-center justify-center bg-black/70 backdrop-blur-sm rounded-full text-center z-50">
-              <p className="!opacity-100 text-white">
-                {user.displayName} has lost {percentageLost}%.
-              </p>
+              {percentageLost ? (
+                <p className="!opacity-100 text-white">
+                  {user.displayName} has lost {percentageLost}%.
+                </p>
+              ) : (
+                <p className="!opacity-100 text-white">Please add data.</p>
+              )}
             </div>
 
             <img
