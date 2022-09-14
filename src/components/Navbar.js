@@ -73,14 +73,21 @@ const Navbar = () => {
   const [showLink, setShowLink] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
 
+  const navigateHome = () => {
+    navigate("/");
+  };
+
   return (
     <div className="flex justify-between list-item bg-white w-full p-4 mb-10">
       {user ? (
         <div className=" justify-between flex">
           {dataButtons}
           <div>
-            <button className="button" onClick={handleSignOut}>
+            <button className="button mr-2" onClick={handleSignOut}>
               Logout
+            </button>
+            <button className="button" onClick={navigateHome}>
+              Home
             </button>
           </div>
         </div>
