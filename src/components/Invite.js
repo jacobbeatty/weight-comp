@@ -51,12 +51,12 @@ const Invite = () => {
         className=" cursor-pointer text-fuchsia-400"
         onClick={() => {
           navigator.clipboard.writeText(
-            "localhost:3000/comp/" + compName + "/" + invite
+            window.location.href + "/comp/" + compName + "/" + invite
           );
           alert("Copied to clipboard!");
         }}
       >
-        localhost:3000/comp/{compName}/{invite}
+        {window.location.href}/comp/{compName}/{invite}
       </p>
     </div>
   );
