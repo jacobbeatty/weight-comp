@@ -1,16 +1,11 @@
 import {React, useEffect, useState} from "react";
 import {UserAuth} from "../context/AuthContext";
-
 import Navbar from "../components/Navbar";
 import UserCarousel from "../components/UserCarousel";
 import {useParams} from "react-router-dom";
-import {db, app, auth} from "../firebase-config";
-import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {useAuthState} from "react-firebase-hooks/auth";
+import {db} from "../firebase-config";
 import {useNavigate} from "react-router-dom";
-
 import {getDoc, setDoc, doc} from "firebase/firestore";
-import Chart from "../components/Chart";
 
 const Comp = () => {
   const navigate = useNavigate();
@@ -74,7 +69,6 @@ const Comp = () => {
     <div>
       <Navbar />
       <UserCarousel />
-      {/* <Chart compName={compName} /> */}
     </div>
   );
 };

@@ -1,19 +1,7 @@
 import {React, useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
-import {
-  updateDoc,
-  doc,
-  setDoc,
-  getDoc,
-  Timestamp,
-  serverTimestamp,
-  collection,
-  where,
-  getDocs,
-  query,
-} from "firebase/firestore";
+import {doc, setDoc, getDoc, Timestamp} from "firebase/firestore";
 import {db, auth} from "../firebase-config";
-import {async} from "@firebase/util";
 
 const Invite = () => {
   let {compName} = useParams();
@@ -50,13 +38,11 @@ const Invite = () => {
       <p
         className=" cursor-pointer text-fuchsia-400"
         onClick={() => {
-          navigator.clipboard.writeText(
-            window.location.href + "/comp/" + compName + "/" + invite
-          );
+          navigator.clipboard.writeText(window.location.href + "/" + invite);
           alert("Copied to clipboard!");
         }}
       >
-        {window.location.href}/comp/{compName}/{invite}
+        {window.location.href}/{invite}
       </p>
     </div>
   );
