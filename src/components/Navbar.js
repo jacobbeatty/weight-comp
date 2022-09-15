@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {UserAuth} from "../context/AuthContext";
-import {useNavigate, useParams} from "react-router-dom";
-import {db} from "../firebase-config";
+import {useNavigate} from "react-router-dom";
 import Invite from "./Invite";
 import AddData from "./AddData";
 import EditData from "./EditData";
 import LinkDiscord from "./LinkDiscord";
+import RemoveUser from "./RemoveUser";
 
 const Navbar = () => {
   const {user, logOut, googleSignIn} = UserAuth();
   const navigate = useNavigate();
-  let {compName} = useParams();
 
   //if the user is not on a comp page, dont show add or edit buttons.
   const isCompPage = window.location.pathname.includes("comp");
@@ -42,6 +41,12 @@ const Navbar = () => {
         >
           Invite
         </button>
+        <button
+          className="button mr-2"
+          onClick={() => setShowRemoveUser((currentShow) => !currentShow)}
+        >
+          Leave Comp
+        </button>
       </div>
     );
   }
@@ -72,13 +77,14 @@ const Navbar = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [showLink, setShowLink] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
+  const [showRemoveUser, setShowRemoveUser] = useState(false);
 
   const navigateHome = () => {
     navigate("/");
   };
 
   return (
-    <div className="flex justify-between list-item bg-white w-full p-4 mb-10">
+    <div className="justify-between list-item bg-white w-full p-4 mb-10">
       {user ? (
         <div className=" justify-between flex">
           {dataButtons}
@@ -101,6 +107,7 @@ const Navbar = () => {
         {showEdit && user ? <EditData /> : null}
         {showLink && user ? <LinkDiscord /> : null}
         {showInvite && user ? <Invite /> : null}
+        {showRemoveUser && user ? <RemoveUser /> : null}
       </div>
     </div>
   );
