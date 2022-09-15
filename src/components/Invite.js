@@ -1,19 +1,7 @@
 import {React, useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
-import {
-  updateDoc,
-  doc,
-  setDoc,
-  getDoc,
-  Timestamp,
-  serverTimestamp,
-  collection,
-  where,
-  getDocs,
-  query,
-} from "firebase/firestore";
+import {doc, setDoc, getDoc, Timestamp} from "firebase/firestore";
 import {db, auth} from "../firebase-config";
-import {async} from "@firebase/util";
 
 const Invite = () => {
   let {compName} = useParams();

@@ -1,6 +1,6 @@
 import React from "react";
 import HomeCard from "../components/HomeCard";
-import {app, db, auth} from "../firebase-config.js";
+import {db, auth} from "../firebase-config.js";
 import {setDoc, doc} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
