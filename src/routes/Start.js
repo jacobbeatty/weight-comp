@@ -36,25 +36,26 @@ const Start = () => {
     navigate(`/comp/${e.compName}`);
   };
   return (
-    <div className=" flex justify-around items-center w-[100vw] h-[100vh]">
-      <HomeCard message="Name your comp:">
-        <form className="text-center" onSubmit={handleSubmit(onSubmit)}>
-          <input
-            className="border-fuchsia-600 border-solid border-2"
-            type="text"
-            placeholder="Comp Name"
-            {...register("compName")}
-          />
-          <p>{errors.compName?.message}</p>
-          <button
-            type="submit"
-            value="GO"
-            className="bg-fuchsia-600 text-white p-2 m-2 rounded-full"
-          >
-            GO
-          </button>
-        </form>
-      </HomeCard>
+    <div className=" flex flex-col sm:flex-row justify-around items-center w-fit sm:w-[100vw] h-[100vh]">
+      <h1 className="text-6xl font-bold text-white text-center">
+        Challenge Your Friends
+      </h1>
+      <form className="text-center" onSubmit={handleSubmit(onSubmit)}>
+        <input
+          className="border-fuchsia-600 border-solid border-2"
+          type="text"
+          placeholder="Comp Name"
+          {...register("compName")}
+        />
+        <p>{errors.compName?.message}</p>
+        <button
+          type="submit"
+          value="GO"
+          className="bg-fuchsia-600 text-white p-2 m-2 rounded-full"
+        >
+          GO
+        </button>
+      </form>
     </div>
   );
 };

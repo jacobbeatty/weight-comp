@@ -18,31 +18,31 @@ const Navbar = () => {
     dataButtons = (
       <div>
         <button
-          className="button mr-2"
+          className="button mr-2 mb-2"
           onClick={() => setShowAdd((currentShow) => !currentShow)}
         >
           Add Data
         </button>
         <button
-          className="button mr-2"
+          className="button mr-2 mb-2"
           onClick={() => setShowEdit((currentShow) => !currentShow)}
         >
           Weigh In
         </button>
         <button
-          className="button mr-2"
+          className="button mr-2 mb-2"
           onClick={() => setShowLink((currentShow) => !currentShow)}
         >
           Link
         </button>
         <button
-          className="button mr-2"
+          className="button mr-2 mb-2"
           onClick={() => setShowInvite((currentShow) => !currentShow)}
         >
           Invite
         </button>
         <button
-          className="button mr-2"
+          className="button mr-2 mb-2"
           onClick={() => setShowRemoveUser((currentShow) => !currentShow)}
         >
           Leave Comp
@@ -89,7 +89,7 @@ const Navbar = () => {
         <div className=" justify-between flex">
           {dataButtons}
           <div>
-            <button className="button mr-2" onClick={handleSignOut}>
+            <button className="button mr-2 mb-2" onClick={handleSignOut}>
               Logout
             </button>
             <button className="button" onClick={navigateHome}>
