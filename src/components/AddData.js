@@ -15,14 +15,12 @@ const AddData = () => {
       .number("Must be a number.")
       .typeError("Must be a number.")
       .required("Please include a starting weight.")
-      .positive("Must be positive.")
-      .integer("Must be a number."),
+      .positive("Must be positive."),
     currentWeight: yup
       .number("Must be a number.")
       .typeError("Must be a number.")
       .required("Please include your current weight.")
-      .positive("Must be positive.")
-      .integer("Must be a number."),
+      .positive("Must be positive."),
   });
   const {
     register,
