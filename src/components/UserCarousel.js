@@ -28,9 +28,9 @@ const UserCarousel = () => {
       {/* create finish line */}
       <div
         id="finishLine"
-        className="w-1 border-l-8 border-dashed border-white "
+        className="hidden md:flex w-1 border-l-8 border-dashed border-white "
       ></div>
-      <h1 className="rotate-90 text-white text-3xl  h-fit w-fit text-center self-center font-semibold whitespace-nowrap">
+      <h1 className="hidden md:flex rotate-90 text-white text-3xl  h-fit w-fit text-center self-center font-semibold whitespace-nowrap">
         {endDate ? endDate.toDateString() : "Loading..."}
       </h1>
     </div>
