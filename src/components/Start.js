@@ -22,10 +22,10 @@ const Start = () => {
   const schema = yup.object().shape({
     compName: yup
       .string()
-      .trim("The contact name cannot include leading and trailing spaces")
-      .required("Please include a competition name.")
-      .min(3, "Competition name must be at least 3 characters long.")
-      .max(15, "Competition name must be 15 characters or less."),
+      .trim("⚠️The contact name cannot include leading and trailing spaces")
+      .required("⚠️Please include a competition name.")
+      .min(3, "⚠️Competition name must be at least 3 characters long.")
+      .max(15, "⚠️Competition name must be 15 characters or less."),
   });
   const {
     register,
@@ -54,7 +54,7 @@ const Start = () => {
       });
       navigate(`/comp/${e.compName}`);
     } else {
-      alert("Competition name already exists. Please choose another name.");
+      alert("⚠️Competition name already exists. Please choose another name.⚠️");
     }
   };
   return (
@@ -70,7 +70,7 @@ const Start = () => {
           placeholder="Comp Name"
           {...register("compName")}
         />
-        <p>{errors.compName?.message}</p>
+        <p className="text-white">{errors.compName?.message}</p>
         <button
           type="submit"
           value="GO"
