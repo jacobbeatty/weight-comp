@@ -1,7 +1,15 @@
 import React from "react";
 import HomeCard from "../components/HomeCard";
 import {db, auth} from "../firebase-config.js";
-import {setDoc, updateDoc, doc, arrayUnion} from "firebase/firestore";
+import {
+  setDoc,
+  updateDoc,
+  doc,
+  arrayUnion,
+  query,
+  collection,
+  limit,
+} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
@@ -28,17 +36,24 @@ const Start = () => {
 
   const onSubmit = async (e) => {
     const {uid, photoURL, displayName} = auth.currentUser;
-    await setDoc(doc(db, e.compName, uid), {
-      uid: uid,
-      photoURL: photoURL,
-      displayName: displayName,
-      compName: e.compName,
-    });
-    await updateDoc(doc(db, "userInfo", uid), {
-      comps: arrayUnion(e.compName),
-    });
 
-    navigate(`/comp/${e.compName}`);
+    //check if compName exists in db
+    const snapshot = await query(collection(db, e.compName), limit(1));
+
+    if (snapshot.empty) {
+      await setDoc(doc(db, e.compName, uid), {
+        uid: uid,
+        photoURL: photoURL,
+        displayName: displayName,
+        compName: e.compName,
+      });
+      await updateDoc(doc(db, "userInfo", uid), {
+        comps: arrayUnion(e.compName),
+      });
+      navigate(`/comp/${e.compName}`);
+    } else {
+      alert("Competition name already exists. Please choose another name.");
+    }
   };
   return (
     <div className=" flex flex-col sm:flex-row justify-around items-center w-fit ">
