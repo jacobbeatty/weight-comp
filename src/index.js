@@ -4,8 +4,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import Home from "./routes/Home";
-import Start from "./routes/Start";
-import Comp from "./routes/Comp";
+import Start from "./components/Start";
+import Comp from "./components/Comp";
 import {AuthContextProvider} from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
