@@ -1,6 +1,7 @@
 import {React} from "react";
 import HomeCard from "../components/HomeCard";
-import Start from "./Start";
+import Start from "../components/Start";
+import CompList from "../components/CompList";
 import {UserAuth} from "../context/AuthContext";
 
 const Home = () => {
@@ -14,27 +15,24 @@ const Home = () => {
   };
 
   return (
-    <div className=" ">
+    <div className="w-[100%] h-[100vh] flex flex-col ">
+      <h1 className="text-6xl font-bold text-white text-center h-[40%]">
+        Challenge Your Friends
+      </h1>
       {user ? (
-        <div className="flex justify-around items-center w-[100%] h-[100vh]">
-          {/* <HomeCard>
-            <a
-              className="h-full w-full flex justify-center text-center items-center"
-              href="/start"
-            >
-              START A COMP
-            </a>
-          </HomeCard> */}
+        <div className="flex flex-col justify-around items-center h-[30%]">
           <Start />
+          <h1 className="text-white font-semibold text-2xl">Your Comps:</h1>
+          <CompList />
         </div>
       ) : (
-        <div className="flex justify-around items-center w-[100%] h-[100vh]">
+        <div className="flex justify-center items-center h-[30%]">
           <HomeCard>
             <a
-              className="h-full w-full flex justify-center text-center items-center cursor-pointer"
+              className="h-full w-full flex justify-center text-center items-center cursor-pointer text-xl"
               onClick={handleGoogleSignIn}
             >
-              SIGN IN
+              SignIn to Start a Competition
             </a>
           </HomeCard>
         </div>

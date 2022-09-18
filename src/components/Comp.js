@@ -15,7 +15,7 @@ const Comp = () => {
   const {user} = UserAuth();
 
   useEffect(() => {
-    if (!user) return; // 👈 Add this line
+    if (!user) return;
 
     const {uid, displayName, photoURL} = user;
 
@@ -39,7 +39,6 @@ const Comp = () => {
         } else if (!inviteCode) {
           navigate(`/comp/${compName}`);
         } else {
-          //THIS IS MESSED UP
           console.log("wrong invite code");
           navigate("/");
         }

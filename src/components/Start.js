@@ -1,7 +1,7 @@
 import React from "react";
 import HomeCard from "../components/HomeCard";
 import {db, auth} from "../firebase-config.js";
-import {setDoc, doc} from "firebase/firestore";
+import {setDoc, updateDoc, doc, arrayUnion} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
@@ -13,8 +13,10 @@ const Start = () => {
   const schema = yup.object().shape({
     compName: yup
       .string()
+      .trim("The contact name cannot include leading and trailing spaces")
       .required("Please include a competition name.")
-      .min(3, "Competition name must be at least 3 characters long."),
+      .min(3, "Competition name must be at least 3 characters long.")
+      .max(15, "Competition name must be 15 characters or less."),
   });
   const {
     register,
@@ -32,15 +34,19 @@ const Start = () => {
       displayName: displayName,
       compName: e.compName,
     });
+    await updateDoc(doc(db, "userInfo", uid), {
+      comps: arrayUnion(e.compName),
+    });
 
     navigate(`/comp/${e.compName}`);
   };
   return (
-    <div className=" flex flex-col sm:flex-row justify-around items-center w-fit sm:w-[100vw] h-[100vh]">
-      <h1 className="text-6xl font-bold text-white text-center">
-        Challenge Your Friends
-      </h1>
+    <div className=" flex flex-col sm:flex-row justify-around items-center w-fit ">
       <form className="text-center" onSubmit={handleSubmit(onSubmit)}>
+        <h1 className="text-white text-2xl font-semibold">
+          Start a Competition:
+        </h1>
+
         <input
           className="border-fuchsia-600 border-solid border-2"
           type="text"
