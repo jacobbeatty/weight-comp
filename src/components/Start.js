@@ -9,6 +9,7 @@ import {
   query,
   collection,
   limit,
+  getDocs,
 } from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
@@ -38,9 +39,10 @@ const Start = () => {
     const {uid, photoURL, displayName} = auth.currentUser;
 
     //check if compName exists in db
-    const snapshot = await query(collection(db, e.compName), limit(1));
-
-    if (snapshot.empty) {
+    const q = query(collection(db, e.compName), limit(1));
+    const querySnapshot = await getDocs(q);
+    //if compName isn't in db, add it
+    if (querySnapshot.empty) {
       await setDoc(doc(db, e.compName, uid), {
         uid: uid,
         photoURL: photoURL,
