@@ -36,9 +36,14 @@ const Comp = () => {
             compName: compName,
             test: "test",
           });
-          await updateDoc(doc(db, "userInfo", uid), {
-            comps: arrayUnion(compName),
-          });
+          await setDoc(
+            doc(db, "userInfo", uid),
+            {
+              comps: arrayUnion(compName),
+            },
+            {merge: true}
+          );
+          navigate(`/comp/${compName}`);
         } else if (!inviteCode) {
           navigate(`/comp/${compName}`);
         } else {
