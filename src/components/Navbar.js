@@ -99,7 +99,7 @@ const Navbar = () => {
         </div>
       ) : (
         <button className="button" onClick={handleGoogleSignIn}>
-          SignIn
+          Sign In
         </button>
       )}
       <div>

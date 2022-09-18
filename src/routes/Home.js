@@ -32,7 +32,7 @@ const Home = () => {
               className="h-full w-full flex justify-center text-center items-center cursor-pointer text-xl"
               onClick={handleGoogleSignIn}
             >
-              SignIn to Start a Competition
+              Sign In to Start a Competition
             </a>
           </HomeCard>
         </div>

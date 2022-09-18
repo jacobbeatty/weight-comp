@@ -5,7 +5,7 @@ import UserCarousel from "../components/UserCarousel";
 import {useParams} from "react-router-dom";
 import {db} from "../firebase-config";
 import {useNavigate} from "react-router-dom";
-import {getDoc, setDoc, doc} from "firebase/firestore";
+import {getDoc, setDoc, doc, updateDoc, arrayUnion} from "firebase/firestore";
 
 const Comp = () => {
   const navigate = useNavigate();
@@ -36,6 +36,14 @@ const Comp = () => {
             compName: compName,
             test: "test",
           });
+          await setDoc(
+            doc(db, "userInfo", uid),
+            {
+              comps: arrayUnion(compName),
+            },
+            {merge: true}
+          );
+          navigate(`/comp/${compName}`);
         } else if (!inviteCode) {
           navigate(`/comp/${compName}`);
         } else {
