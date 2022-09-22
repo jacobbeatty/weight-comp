@@ -108,40 +108,45 @@ const Navbar = () => {
     if (user == null) {
       navigate("/");
     }
-    const {uid} = user;
-    if (isCompPage) {
-      const getCompInfo = async () => {
-        try {
-          const compInfoRef = doc(db, "compInfo", compName);
-          const compInfoSnap = await getDoc(compInfoRef);
-          const compInfo = compInfoSnap.data();
-          if (compInfo.admins.includes(uid)) {
-            setIsAdmin(true);
+    try {
+      const {uid} = user;
+      //If the user is on a comp page, check if they are an admin
+      if (isCompPage) {
+        const getCompInfo = async () => {
+          try {
+            const compInfoRef = doc(db, "compInfo", compName);
+            const compInfoSnap = await getDoc(compInfoRef);
+            const compInfo = compInfoSnap.data();
+            if (compInfo.admins.includes(uid)) {
+              setIsAdmin(true);
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      getCompInfo();
-    }
-    //If user is the admin of the comp, show the Info button
-    if (isCompPage && isAdmin) {
-      setAdminButtons(
-        <div>
-          <button
-            className="button mr-2 mb-2"
-            onClick={() => {
-              setShowInfo((prev) => !prev);
-              setShowAdd(false);
-              setShowLink(false);
-              setShowInvite(false);
-              setShowRemoveUser(false);
-            }}
-          >
-            Admin
-          </button>
-        </div>
-      );
+        };
+        getCompInfo();
+      }
+      //If user is the admin of the comp, show the Info button
+      if (isCompPage && isAdmin) {
+        setAdminButtons(
+          <div>
+            <button
+              className="button mr-2 mb-2"
+              onClick={() => {
+                setShowInfo((prev) => !prev);
+                setShowAdd(false);
+                setShowLink(false);
+                setShowInvite(false);
+                setShowRemoveUser(false);
+              }}
+            >
+              Admin
+            </button>
+          </div>
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [user, navigate, compName, isAdmin, isCompPage]);
 
