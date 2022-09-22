@@ -3,17 +3,23 @@ import {UserAuth} from "../context/AuthContext";
 import {useNavigate} from "react-router-dom";
 import Invite from "./Invite";
 import AddData from "./AddData";
-// import EditData from "./EditData";
 import LinkDiscord from "./LinkDiscord";
 import RemoveUser from "./RemoveUser";
+import Info from "./Info";
+import {db} from "../firebase-config.js";
+import {useParams} from "react-router-dom";
+
+import {doc, getDoc} from "firebase/firestore";
 
 const Navbar = () => {
+  //Grab compName from url
+  let {compName} = useParams();
   const {user, logOut, googleSignIn} = UserAuth();
   const navigate = useNavigate();
   //Check if the user is on a comp page
   const isCompPage = window.location.pathname.includes("/comp/");
-  let dataButtons;
   //If the user is on a comp page, show add, link, invite, and leave.
+  let dataButtons;
   if (isCompPage) {
     dataButtons = (
       <div>
@@ -23,12 +29,6 @@ const Navbar = () => {
         >
           Weigh In
         </button>
-        {/* <button
-          className="button mr-2 mb-2"
-          onClick={() => setShowEdit((currentShow) => !currentShow)}
-        >
-          Weigh In
-        </button> */}
         <button
           className="button mr-2 mb-2"
           onClick={() => setShowLink((currentShow) => !currentShow)}
@@ -50,6 +50,8 @@ const Navbar = () => {
       </div>
     );
   }
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminButtons, setAdminButtons] = useState();
 
   const handleGoogleSignIn = async () => {
     try {
@@ -73,13 +75,42 @@ const Navbar = () => {
     if (user == null) {
       navigate("/");
     }
-  }, [user, navigate]);
+    const {uid} = user;
+    if (isCompPage) {
+      const getCompInfo = async () => {
+        try {
+          const compInfoRef = doc(db, "compInfo", compName);
+          const compInfoSnap = await getDoc(compInfoRef);
+          const compInfo = compInfoSnap.data();
+          if (compInfo.admins.includes(uid)) {
+            setIsAdmin(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getCompInfo();
+    }
+    //If user is the admin of the comp, show the Info button
+    if (isCompPage && isAdmin) {
+      setAdminButtons(
+        <div>
+          <button
+            className="button mr-2 mb-2"
+            onClick={() => setShowInfo((currentShow) => !currentShow)}
+          >
+            Admin
+          </button>
+        </div>
+      );
+    }
+  }, [user, navigate, compName, isAdmin, isCompPage]);
   //State handers for showing and hiding modals
   const [showAdd, setShowAdd] = useState(false);
-  // const [showEdit, setShowEdit] = useState(false);
   const [showLink, setShowLink] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
   const [showRemoveUser, setShowRemoveUser] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   const navigateHome = () => {
     navigate("/");
@@ -89,7 +120,11 @@ const Navbar = () => {
     <div className="justify-between list-item bg-white w-full p-4 mb-10">
       {user ? (
         <div className=" justify-between flex">
-          {dataButtons}
+          <div className="flex">
+            {dataButtons}
+            {adminButtons}
+          </div>
+
           <div>
             <button className="button mr-2 mb-2" onClick={handleSignOut}>
               Logout
@@ -106,10 +141,10 @@ const Navbar = () => {
       )}
       <div>
         {showAdd && user ? <AddData /> : null}
-        {/* {showEdit && user ? <EditData /> : null} */}
         {showLink && user ? <LinkDiscord /> : null}
         {showInvite && user ? <Invite /> : null}
         {showRemoveUser && user ? <RemoveUser /> : null}
+        {showInfo && user ? <Info /> : null}
       </div>
     </div>
   );

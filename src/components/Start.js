@@ -52,6 +52,11 @@ const Start = () => {
       await updateDoc(doc(db, "userInfo", uid), {
         comps: arrayUnion(e.compName),
       });
+      //Add user as admin of comp in compInfo collection in db and create a default endDate for the comp
+      await setDoc(doc(db, "compInfo", e.compName), {
+        admins: arrayUnion(uid),
+        endDate: "Please add an end date",
+      });
       navigate(`/comp/${e.compName}`);
     } else {
       alert("⚠️Competition name already exists. Please choose another name.⚠️");

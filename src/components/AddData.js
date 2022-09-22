@@ -53,10 +53,14 @@ const AddData = () => {
     });
   };
   useEffect(() => {
-    const usersRef = doc(db, "users", getAuth().currentUser.uid);
+    const usersRef = doc(db, compName, getAuth(app).currentUser.uid);
     const getStartingWeight = async () => {
       const snap = await getDoc(usersRef);
-      setValue("startingWeight", snap.data().startingWeight);
+      if (snap.exists()) {
+        setValue("startingWeight", snap.data().startingWeight);
+      } else {
+        console.log("No document.");
+      }
     };
     getStartingWeight();
   }, [setValue]);
