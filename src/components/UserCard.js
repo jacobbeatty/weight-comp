@@ -26,7 +26,7 @@ const UserCard = () => {
         return (
           <div
             key={user.displayName}
-            className="w-[85vw]  h-[49vh] sm:h-[35vh] xl:h-[30vh] drop-shadow-xl flex items-end sm:items-center p-2 justify-center sm:justify-start "
+            className="w-[85vw]  h-[45vh] sm:h-[37vh] 2xl:h-[30vh] drop-shadow-xl flex items-end sm:items-center p-2 justify-center sm:justify-start "
           >
             <div className="sm:hidden flex w-[100px] h-[100px] items-center justify-center bg-black/70 backdrop-blur-sm rounded-full text-center z-50 absolute">
               {percentageLost ? (
