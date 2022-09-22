@@ -6,6 +6,7 @@ import {useParams} from "react-router-dom";
 import {db} from "../firebase-config";
 import {useNavigate} from "react-router-dom";
 import {getDoc, setDoc, doc, arrayUnion} from "firebase/firestore";
+import Transitions from "./Transitions";
 
 const Comp = () => {
   const navigate = useNavigate();
@@ -71,7 +72,9 @@ const Comp = () => {
   return (
     <div>
       <Navbar />
-      <UserCarousel />
+      <Transitions>
+        <UserCarousel />
+      </Transitions>
     </div>
   );
 };

@@ -3,53 +3,88 @@ import {UserAuth} from "../context/AuthContext";
 import {useNavigate} from "react-router-dom";
 import Invite from "./Invite";
 import AddData from "./AddData";
-// import EditData from "./EditData";
 import LinkDiscord from "./LinkDiscord";
 import RemoveUser from "./RemoveUser";
+import Info from "./Info";
+import {db} from "../firebase-config.js";
+import {useParams} from "react-router-dom";
+import {doc, getDoc} from "firebase/firestore";
+import {motion} from "framer-motion";
+import useMeasure from "react-use-measure";
+import Transitions from "./Transitions";
 
 const Navbar = () => {
+  const [ref, {height}] = useMeasure();
+  //State handers for showing and hiding modals
+  const [showAdd, setShowAdd] = useState(false);
+  const [showLink, setShowLink] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
+  const [showRemoveUser, setShowRemoveUser] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+  //Grab compName from url
+  let {compName} = useParams();
   const {user, logOut, googleSignIn} = UserAuth();
   const navigate = useNavigate();
   //Check if the user is on a comp page
   const isCompPage = window.location.pathname.includes("/comp/");
-  let dataButtons;
   //If the user is on a comp page, show add, link, invite, and leave.
+  let dataButtons;
   if (isCompPage) {
     dataButtons = (
       <div>
         <button
           className="button mr-2 mb-2"
-          onClick={() => setShowAdd((currentShow) => !currentShow)}
+          onClick={() => {
+            setShowAdd((prev) => !prev);
+            setShowLink(false);
+            setShowInvite(false);
+            setShowRemoveUser(false);
+            setShowInfo(false);
+          }}
         >
           Weigh In
         </button>
-        {/* <button
-          className="button mr-2 mb-2"
-          onClick={() => setShowEdit((currentShow) => !currentShow)}
-        >
-          Weigh In
-        </button> */}
         <button
           className="button mr-2 mb-2"
-          onClick={() => setShowLink((currentShow) => !currentShow)}
+          onClick={() => {
+            setShowLink((prev) => !prev);
+            setShowAdd(false);
+            setShowInvite(false);
+            setShowRemoveUser(false);
+            setShowInfo(false);
+          }}
         >
           Link
         </button>
         <button
           className="button mr-2 mb-2"
-          onClick={() => setShowInvite((currentShow) => !currentShow)}
+          onClick={() => {
+            setShowInvite((prev) => !prev);
+            setShowAdd(false);
+            setShowLink(false);
+            setShowRemoveUser(false);
+            setShowInfo(false);
+          }}
         >
           Invite
         </button>
         <button
           className="button mr-2 mb-2"
-          onClick={() => setShowRemoveUser((currentShow) => !currentShow)}
+          onClick={() => {
+            setShowRemoveUser((prev) => !prev);
+            setShowAdd(false);
+            setShowLink(false);
+            setShowInvite(false);
+            setShowInfo(false);
+          }}
         >
           Leave Comp
         </button>
       </div>
     );
   }
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminButtons, setAdminButtons] = useState();
 
   const handleGoogleSignIn = async () => {
     try {
@@ -73,45 +108,90 @@ const Navbar = () => {
     if (user == null) {
       navigate("/");
     }
-  }, [user, navigate]);
-  //State handers for showing and hiding modals
-  const [showAdd, setShowAdd] = useState(false);
-  // const [showEdit, setShowEdit] = useState(false);
-  const [showLink, setShowLink] = useState(false);
-  const [showInvite, setShowInvite] = useState(false);
-  const [showRemoveUser, setShowRemoveUser] = useState(false);
+    const {uid} = user;
+    if (isCompPage) {
+      const getCompInfo = async () => {
+        try {
+          const compInfoRef = doc(db, "compInfo", compName);
+          const compInfoSnap = await getDoc(compInfoRef);
+          const compInfo = compInfoSnap.data();
+          if (compInfo.admins.includes(uid)) {
+            setIsAdmin(true);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getCompInfo();
+    }
+    //If user is the admin of the comp, show the Info button
+    if (isCompPage && isAdmin) {
+      setAdminButtons(
+        <div>
+          <button
+            className="button mr-2 mb-2"
+            onClick={() => {
+              setShowInfo((prev) => !prev);
+              setShowAdd(false);
+              setShowLink(false);
+              setShowInvite(false);
+              setShowRemoveUser(false);
+            }}
+          >
+            Admin
+          </button>
+        </div>
+      );
+    }
+  }, [user, navigate, compName, isAdmin, isCompPage]);
 
   const navigateHome = () => {
     navigate("/");
   };
 
   return (
-    <div className="justify-between list-item bg-white w-full p-4 mb-10">
-      {user ? (
-        <div className=" justify-between flex">
-          {dataButtons}
-          <div>
-            <button className="button mr-2 mb-2" onClick={handleSignOut}>
-              Logout
-            </button>
-            <button className="button" onClick={navigateHome}>
-              Home
-            </button>
+    <motion.div className="justify-between list-item bg-white w-full p-4 mb-10">
+      <Transitions>
+        {user ? (
+          <div className=" justify-between flex">
+            <div className="flex">
+              {dataButtons}
+              {adminButtons}
+            </div>
+
+            <div>
+              <button className="button mr-2 mb-2" onClick={handleSignOut}>
+                Logout
+              </button>
+              <button className="button" onClick={navigateHome}>
+                Home
+              </button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <button className="button" onClick={handleGoogleSignIn}>
-          Sign In
-        </button>
-      )}
-      <div>
-        {showAdd && user ? <AddData /> : null}
-        {/* {showEdit && user ? <EditData /> : null} */}
-        {showLink && user ? <LinkDiscord /> : null}
-        {showInvite && user ? <Invite /> : null}
-        {showRemoveUser && user ? <RemoveUser /> : null}
-      </div>
-    </div>
+        ) : (
+          <button className="button" onClick={handleGoogleSignIn}>
+            Sign In
+          </button>
+        )}
+        <motion.div
+          initial={{opacity: 0}}
+          animate={{
+            opacity: 1,
+            height:
+              showAdd || showLink || showInvite || showRemoveUser || showInfo
+                ? height + 60
+                : height,
+          }}
+          key={height}
+        >
+          {showAdd && user ? <AddData /> : null}
+          {showLink && user ? <LinkDiscord /> : null}
+          {showInvite && user ? <Invite /> : null}
+          {showRemoveUser && user ? <RemoveUser /> : null}
+          {showInfo && user ? <Info /> : null}
+        </motion.div>
+      </Transitions>
+    </motion.div>
   );
 };
 
