@@ -9,6 +9,7 @@ import {
   collection,
   limit,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
@@ -41,6 +42,8 @@ const Start = () => {
     //Check if compName exists in db
     const q = query(collection(db, e.compName), limit(1));
     const querySnapshot = await getDocs(q);
+    //Check if userInfo exists for the user
+    const userInfo = await getDoc(doc(db, "users", uid));
     //If compName isn't in db, add it
     if (querySnapshot.empty) {
       await setDoc(doc(db, e.compName, uid), {
@@ -49,9 +52,16 @@ const Start = () => {
         displayName: displayName,
         compName: e.compName,
       });
-      await updateDoc(doc(db, "userInfo", uid), {
-        comps: arrayUnion(e.compName),
-      });
+      //If userInfo doesn't exist for the user, add it
+      if (!userInfo.exists()) {
+        await setDoc(doc(db, "userInfo", uid), {
+          comps: arrayUnion(e.compName),
+        });
+      } else {
+        await updateDoc(doc(db, "userInfo", uid), {
+          comps: arrayUnion(e.compName),
+        });
+      }
       //Add user as admin of comp in compInfo collection in db and create a default endDate for the comp
       //Generate timestamp for endDate 1 week from now
       const endDate = new Date();
