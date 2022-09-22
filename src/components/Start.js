@@ -53,9 +53,12 @@ const Start = () => {
         comps: arrayUnion(e.compName),
       });
       //Add user as admin of comp in compInfo collection in db and create a default endDate for the comp
+      //Generate timestamp for endDate 1 week from now
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 7);
       await setDoc(doc(db, "compInfo", e.compName), {
         admins: arrayUnion(uid),
-        endDate: "Please add an end date",
+        endDate: endDate,
       });
       navigate(`/comp/${e.compName}`);
     } else {

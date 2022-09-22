@@ -8,6 +8,7 @@ const UserCarousel = () => {
   //Grab compName from url
   let {compName} = useParams();
   const [endDate, setEndDate] = useState();
+  const [dateReached, setDateReached] = useState(false);
 
   useEffect(() => {
     const infoRef = doc(db, "compInfo", compName);
@@ -20,6 +21,15 @@ const UserCarousel = () => {
     };
     //Get comp info on mount
     getInfo();
+
+    // Check isDateReached
+
+    const today = new Date();
+    if (today > endDate) {
+      setDateReached(true);
+    } else {
+      setDateReached(false);
+    }
   }, [compName]);
 
   return (
@@ -30,7 +40,10 @@ const UserCarousel = () => {
         className="hidden md:flex w-1 border-l-8 border-dashed border-white "
       ></div>
       <h1 className="hidden md:flex rotate-90 text-white text-3xl  h-fit w-fit text-center self-center font-semibold whitespace-nowrap">
-        {endDate ? endDate.toDateString() : "Loading..."}
+        {endDate && dateReached === false
+          ? endDate.toDateString()
+          : "Loading..."}
+        {endDate && dateReached === true ? "Competition ended!" : null}
       </h1>
     </div>
   );
