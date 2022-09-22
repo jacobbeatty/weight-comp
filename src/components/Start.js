@@ -1,5 +1,4 @@
 import React from "react";
-import HomeCard from "../components/HomeCard";
 import {db, auth} from "../firebase-config.js";
 import {
   setDoc,
@@ -18,7 +17,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 
 const Start = () => {
   const navigate = useNavigate();
-
+  //Generate schema for yup validation of form
   const schema = yup.object().shape({
     compName: yup
       .string()
@@ -27,6 +26,7 @@ const Start = () => {
       .min(3, "⚠️Competition name must be at least 3 characters long.")
       .max(15, "⚠️Competition name must be 15 characters or less."),
   });
+  //Generate form hook
   const {
     register,
     handleSubmit,
@@ -35,13 +35,13 @@ const Start = () => {
     resolver: yupResolver(schema),
   });
 
+  //Handle form submission and create a new competition in the database with the given name if it doesn't already exist.
   const onSubmit = async (e) => {
     const {uid, photoURL, displayName} = auth.currentUser;
-
-    //check if compName exists in db
+    //Check if compName exists in db
     const q = query(collection(db, e.compName), limit(1));
     const querySnapshot = await getDocs(q);
-    //if compName isn't in db, add it
+    //If compName isn't in db, add it
     if (querySnapshot.empty) {
       await setDoc(doc(db, e.compName, uid), {
         uid: uid,

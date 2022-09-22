@@ -1,6 +1,6 @@
-import React from "react";
+import {React, useEffect} from "react";
 import {app} from "../firebase-config";
-import {setDoc, doc} from "firebase/firestore";
+import {setDoc, doc, getDoc} from "firebase/firestore";
 import {db} from "../firebase-config";
 import {getAuth} from "firebase/auth";
 import {useParams} from "react-router-dom";
@@ -9,7 +9,9 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 const AddData = () => {
+  //Grab compName from url
   let {compName} = useParams();
+  //Create schema for yup validation
   const schema = yup.object().shape({
     startingWeight: yup
       .number("Must be a number.")
@@ -22,23 +24,25 @@ const AddData = () => {
       .required("Please include your current weight.")
       .positive("Must be positive."),
   });
+  //Create form hook
   const {
     register,
     handleSubmit,
     formState: {errors},
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
+  //Create function to handle form submission
   const auth = getAuth(app);
-
   const onSubmit = async (e) => {
     const {uid, photoURL, displayName} = auth.currentUser;
-
+    //Calculate weight loss percentage
     const percentageLost = (
       ((e.startingWeight - e.currentWeight) / e.startingWeight) *
       100
     ).toFixed(2);
-
+    //Set a new document in the compName collection with the user's uid as the document name
     await setDoc(doc(db, compName, uid), {
       uid: uid,
       photoURL: photoURL,
@@ -48,7 +52,14 @@ const AddData = () => {
       percentageLost: percentageLost,
     });
   };
-
+  useEffect(() => {
+    const usersRef = doc(db, "users", getAuth().currentUser.uid);
+    const getStartingWeight = async () => {
+      const snap = await getDoc(usersRef);
+      setValue("startingWeight", snap.data().startingWeight);
+    };
+    getStartingWeight();
+  }, [setValue]);
   return (
     <form
       className="form flex-col flex flex-wrap  mt-2"

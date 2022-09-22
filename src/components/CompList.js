@@ -7,16 +7,12 @@ import {useNavigate} from "react-router-dom";
 const CompList = () => {
   const {user} = UserAuth();
   const navigate = useNavigate();
-
-  //state for compList
   const [compList, setCompList] = useState([]);
 
+  //Get list of comps user is in from userInfo collection and store in compList state
   useEffect(() => {
     if (!user) return;
-
     const {uid} = user;
-
-    //make ref to userInfo
     const getCompList = async () => {
       try {
         const userInfoRef = doc(db, "userInfo", uid);
@@ -34,14 +30,14 @@ const CompList = () => {
     <div>
       {compList.map((comp) => (
         <div key={comp}>
-          <a
+          <button
             className="text-white text-2xl"
             onClick={() => {
               navigate(`/comp/${comp}`);
             }}
           >
             {comp}➜
-          </a>
+          </button>
         </div>
       ))}
     </div>

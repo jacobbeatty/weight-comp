@@ -1,13 +1,16 @@
-import React from "react";
-import { updateDoc, doc } from "firebase/firestore";
-import { db, auth } from "../firebase-config";
+import {React} from "react";
+import {useParams} from "react-router-dom";
+import {updateDoc, doc} from "firebase/firestore";
+import {db, auth} from "../firebase-config";
 
 const LinkDiscord = () => {
-  // e.preventDefault();
-  const { uid } = auth.currentUser;
+  //Grab compName from url
+  let {compName} = useParams();
+  const {uid} = auth.currentUser;
+  //Generate random string for link code
   const randomString = Math.random(1).toString(36).substring(2, 15);
-
-  updateDoc(doc(db, "users", uid), {
+  //Update link code in database
+  updateDoc(doc(db, compName, uid), {
     linkCode: randomString,
   });
 

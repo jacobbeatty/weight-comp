@@ -6,21 +6,23 @@ import {useParams} from "react-router-dom";
 
 const UserCard = () => {
   const [users, setUsers] = useState([]);
+  //Grab compName from url
   let {compName} = useParams();
-  const usersRef = collection(db, compName);
 
   useEffect(() => {
+    const usersRef = collection(db, compName);
+
+    //Get list of users in comp from compName collection and store in users state
     const unsubscribe = onSnapshot(usersRef, (snapshot) =>
       setUsers(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
     );
     return unsubscribe;
-  }, []);
+  }, [compName]);
 
   return (
     <div className="flex flex-col  sm:w-[95%] h-fit ">
       {users.map((user) => {
         const percentageLost = user.percentageLost;
-
         return (
           <div
             key={user.displayName}

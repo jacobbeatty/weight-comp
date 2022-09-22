@@ -5,27 +5,26 @@ import {doc, getDoc} from "firebase/firestore";
 import {useParams} from "react-router-dom";
 
 const UserCarousel = () => {
+  //Grab compName from url
   let {compName} = useParams();
-  const infoRef = doc(db, "compInfo", compName);
   const [endDate, setEndDate] = useState();
 
-  const getInfo = async () => {
-    const infoSnap = await getDoc(infoRef);
-    const info = infoSnap.data();
-
-    setEndDate(info.endDate.toDate());
-  };
-
   useEffect(() => {
-    getInfo();
-  }, []);
+    const infoRef = doc(db, "compInfo", compName);
 
-  console.log(endDate);
+    const getInfo = async () => {
+      const infoSnap = await getDoc(infoRef);
+      const info = infoSnap.data();
+
+      setEndDate(info.endDate.toDate());
+    };
+    //Get comp info on mount
+    getInfo();
+  }, [compName]);
 
   return (
     <div className="flex justify-center">
       <UserCard />
-      {/* create finish line */}
       <div
         id="finishLine"
         className="hidden md:flex w-1 border-l-8 border-dashed border-white "

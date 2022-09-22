@@ -3,17 +3,17 @@ import {UserAuth} from "../context/AuthContext";
 import {useNavigate} from "react-router-dom";
 import Invite from "./Invite";
 import AddData from "./AddData";
-import EditData from "./EditData";
+// import EditData from "./EditData";
 import LinkDiscord from "./LinkDiscord";
 import RemoveUser from "./RemoveUser";
 
 const Navbar = () => {
   const {user, logOut, googleSignIn} = UserAuth();
   const navigate = useNavigate();
-
-  //if the user is not on a comp page, dont show add or edit buttons.
-  const isCompPage = window.location.pathname.includes("comp");
+  //Check if the user is on a comp page
+  const isCompPage = window.location.pathname.includes("/comp/");
   let dataButtons;
+  //If the user is on a comp page, show add, link, invite, and leave.
   if (isCompPage) {
     dataButtons = (
       <div>
@@ -21,14 +21,14 @@ const Navbar = () => {
           className="button mr-2 mb-2"
           onClick={() => setShowAdd((currentShow) => !currentShow)}
         >
-          Add Data
+          Weigh In
         </button>
-        <button
+        {/* <button
           className="button mr-2 mb-2"
           onClick={() => setShowEdit((currentShow) => !currentShow)}
         >
           Weigh In
-        </button>
+        </button> */}
         <button
           className="button mr-2 mb-2"
           onClick={() => setShowLink((currentShow) => !currentShow)}
@@ -69,12 +69,14 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    //if the user is not logged in, redirect to home page
     if (user == null) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
+  //State handers for showing and hiding modals
   const [showAdd, setShowAdd] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  // const [showEdit, setShowEdit] = useState(false);
   const [showLink, setShowLink] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
   const [showRemoveUser, setShowRemoveUser] = useState(false);
@@ -104,7 +106,7 @@ const Navbar = () => {
       )}
       <div>
         {showAdd && user ? <AddData /> : null}
-        {showEdit && user ? <EditData /> : null}
+        {/* {showEdit && user ? <EditData /> : null} */}
         {showLink && user ? <LinkDiscord /> : null}
         {showInvite && user ? <Invite /> : null}
         {showRemoveUser && user ? <RemoveUser /> : null}
