@@ -8,7 +8,6 @@ import RemoveUser from "./RemoveUser";
 import Info from "./Info";
 import {db} from "../firebase-config.js";
 import {useParams} from "react-router-dom";
-
 import {doc, getDoc} from "firebase/firestore";
 
 const Navbar = () => {

@@ -63,7 +63,7 @@ const AddData = () => {
       }
     };
     getStartingWeight();
-  }, [setValue]);
+  }, [setValue, compName]);
   return (
     <form
       className="form flex-col flex flex-wrap  mt-2"
