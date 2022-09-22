@@ -16,14 +16,12 @@ const UserCarousel = () => {
     const getInfo = async () => {
       const infoSnap = await getDoc(infoRef);
       const info = infoSnap.data();
-
       setEndDate(info.endDate.toDate());
     };
-    //Get comp info on mount
+    //Get endDate on mount
     getInfo();
 
     // Check isDateReached
-
     const today = new Date();
     if (today > endDate) {
       setDateReached(true);
