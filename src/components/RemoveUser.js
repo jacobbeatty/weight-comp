@@ -6,13 +6,12 @@ import {arrayRemove, deleteDoc, doc, updateDoc} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 
 const RemoveUser = () => {
-  //get compname from url
+  //Grab compName from url
   let {compName} = useParams();
-  //get uid from user
   const {user} = UserAuth();
   const {uid} = user;
   const navigate = useNavigate();
-  // delete user from comp
+  //Delete user from comp and remove comp from user's list of comps
   const handleRemoveUser = async () => {
     try {
       await deleteDoc(doc(db, compName, uid));
