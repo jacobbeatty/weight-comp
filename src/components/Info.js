@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useParams} from "react-router-dom";
 import {
@@ -11,6 +11,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import {db} from "../firebase-config.js";
+import DatePicker from "react-date-picker";
 
 const Info = () => {
   const navigate = useNavigate();
@@ -39,11 +40,29 @@ const Info = () => {
     //Navigate to home page
     navigate("/");
   };
+
+  const [value, onChange] = useState(new Date());
+  const handleSetEndDate = async () => {
+    console.log("Set end date");
+    //Set the endDate in the compInfo collection
+    const compInfoRef = doc(db, "compInfo", compName);
+    console.log(value);
+    await updateDoc(compInfoRef, {
+      endDate: value,
+    });
+  };
+
   return (
     <div>
       <button className="button mr-2 mb-2" onClick={() => handleDeleteComp()}>
-        Delete Comp
+        ⚠️Delete Comp⚠️
       </button>
+      <div>
+        <DatePicker onChange={onChange} value={value} />
+        <button className="button ml-2 mb-2" onClick={() => handleSetEndDate()}>
+          Set End Date
+        </button>
+      </div>
     </div>
   );
 };
