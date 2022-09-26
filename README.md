@@ -1,4 +1,5 @@
 # Weight Comp
+## URL: https://weight-comp.netlify.app/
 
 A web app designed to track weight loss competitions between friends. 
 
