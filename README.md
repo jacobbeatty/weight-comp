@@ -1,5 +1,5 @@
 # Weight Comp
-## URL: https://weight-comp.netlify.app/
+## URL: This demo serves as a proof of the functional integration of Firebase, and not as a representation of UI Design. https://weight-comp.netlify.app/
 
 A web app designed to track weight loss competitions between friends. 
 
